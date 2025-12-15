@@ -1,0 +1,18 @@
+{
+  "name": "orpheus-core",
+  "version": "0.1.0",
+  "description": "Orpheus orchestration core - planning and dispatch",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsc --watch"
+  },
+  "dependencies": {
+    "dotenv": "^16.4.5"
+  },
+  "devDependencies": {
+    "@types/node": "^20.10.0",
+    "typescript": "^5.6.3"
+  }
+}

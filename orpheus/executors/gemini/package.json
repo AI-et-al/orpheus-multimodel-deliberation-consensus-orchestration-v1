@@ -1,0 +1,18 @@
+{
+  "name": "orpheus-executor-gemini",
+  "version": "0.1.0",
+  "description": "Orpheus executor for Google Gemini models",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsc --watch"
+  },
+  "dependencies": {
+    "@google/generative-ai": "^0.21.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20.10.0",
+    "typescript": "^5.6.3"
+  }
+}

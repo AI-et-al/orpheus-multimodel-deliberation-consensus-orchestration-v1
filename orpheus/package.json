@@ -1,0 +1,19 @@
+{
+  "name": "orpheus",
+  "private": true,
+  "version": "0.1.0",
+  "description": "Multi-AI Agent Orchestration System",
+  "workspaces": [
+    "orpheus-core",
+    "executors/*",
+    "memory"
+  ],
+  "scripts": {
+    "build": "npm run build --workspaces",
+    "clean": "rm -rf */dist */node_modules node_modules",
+    "orpheus": "node orpheus-core/dist/index.js"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}
