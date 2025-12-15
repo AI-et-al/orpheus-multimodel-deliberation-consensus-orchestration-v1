@@ -10,6 +10,7 @@ Orpheus is a multi-AI agent orchestration system. It routes tasks to OpenAI (Cod
 cd orpheus
 npm install
 npm run build
+npm run orpheus -- "Your task here"
 ```
 
 ## Architecture
@@ -29,17 +30,24 @@ User Prompt → Planner → Dispatcher → Executor(s) → Result
 
 ```
 orpheus/
+├── src/
+│   └── cli.ts        # Main CLI entry point
 ├── orpheus-core/src/
-│   ├── index.ts      # Main Orpheus class, CLI stub
+│   ├── index.ts      # Main Orpheus class, exports
 │   ├── types.ts      # All TypeScript interfaces
+│   ├── models.ts     # Frontier model registry
 │   ├── planner.ts    # Task decomposition, executor routing
 │   └── dispatcher.ts # Task dispatch with retry/fallback
 ├── executors/
 │   ├── codex/        # OpenAI GPT-4o
-│   ├── sonnet/       # Anthropic Claude
+│   ├── sonnet/       # Anthropic Claude Sonnet 4.5
 │   └── gemini/       # Google Gemini
 ├── memory/
 │   └── store.ts      # SQLite event store
+├── tests/
+│   ├── memory.test.ts    # SQLite store tests
+│   ├── executors.test.ts # API availability tests
+│   └── pipeline.test.ts  # End-to-end tests
 └── package.json      # npm workspaces root
 ```
 
@@ -53,6 +61,8 @@ orpheus/
 | Anthropic | Sonnet 4.5 | `claude-sonnet-4-5-20250929` | Execution |
 | Google | Gemini 2.5 Pro | `gemini-2.5-pro-preview-06-05` | Advanced reasoning |
 | Google | Gemini 2.0 Flash | `gemini-2.0-flash-exp` | Fast/multimodal |
+
+Models are centralized in `orpheus-core/src/models.ts`.
 
 ## Environment Variables
 
@@ -96,15 +106,18 @@ interface MemoryStore {
 
 ```bash
 npm install          # Install all workspace dependencies
-npm run build        # Build all packages
+npm run build        # Build all packages + CLI
 npm run clean        # Remove dist/ and node_modules/
-npm run orpheus      # Run CLI (needs executors registered)
+npm run orpheus      # Run CLI
+npm test             # Run all tests
+npm run test:memory  # Run memory store tests only
 ```
 
 ## Known Issues
 
-- [ ] Sonnet uses old model `claude-sonnet-4-20250514` → update to `claude-sonnet-4-5-20250929`
-- [ ] No CLI entry point yet - root `npm run orpheus` is a stub
+- [x] ~~Sonnet uses old model~~ → Updated to `claude-sonnet-4-5-20250929`
+- [x] ~~No CLI entry point~~ → Added `src/cli.ts`
+- [x] ~~No model registry~~ → Added `orpheus-core/src/models.ts`
 - [ ] Types duplicated across executors (should import from orpheus-core)
 - [ ] No streaming support
 - [ ] No rate limit handling
@@ -113,8 +126,9 @@ npm run orpheus      # Run CLI (needs executors registered)
 
 Every session:
 1. Verify frontier models are current (check provider docs if stale)
-2. Update model constants if needed
+2. Update `orpheus-core/src/models.ts` if needed
 3. Run `npm run build` to verify compilation
+4. Run `npm test` to verify tests pass
 
 ## Design Principles
 

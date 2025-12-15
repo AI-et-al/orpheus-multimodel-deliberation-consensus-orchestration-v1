@@ -17,6 +17,7 @@ export * from './types.js';
 // Re-export modules
 export { Planner, createPlanner } from './planner.js';
 export { Dispatcher, createDispatcher } from './dispatcher.js';
+export { FRONTIER_MODELS, getModel } from './models.js';
 
 import { createPlanner } from './planner.js';
 import { createDispatcher } from './dispatcher.js';

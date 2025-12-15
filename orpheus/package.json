@@ -2,16 +2,34 @@
   "name": "orpheus",
   "private": true,
   "version": "0.1.0",
+  "type": "module",
   "description": "Multi-AI Agent Orchestration System",
+  "bin": {
+    "orpheus": "./dist/cli.js"
+  },
   "workspaces": [
     "orpheus-core",
     "executors/*",
     "memory"
   ],
   "scripts": {
-    "build": "npm run build --workspaces",
-    "clean": "rm -rf */dist */node_modules node_modules",
-    "orpheus": "node orpheus-core/dist/index.js"
+    "build": "npm run build --workspaces && tsc",
+    "build:cli": "tsc",
+    "build:tests": "tsc -p tests/tsconfig.json",
+    "clean": "rm -rf */dist */node_modules node_modules dist",
+    "orpheus": "node dist/cli.js",
+    "test": "npm run build:tests && node --test dist/tests/*.test.js",
+    "test:memory": "npm run build:tests && node --test dist/tests/memory.test.js",
+    "test:executors": "npm run build:tests && node --test dist/tests/executors.test.js",
+    "test:pipeline": "npm run build:tests && node --test dist/tests/pipeline.test.js"
+  },
+  "dependencies": {
+    "dotenv": "^16.3.1",
+    "orpheus-core": "*",
+    "orpheus-memory": "*",
+    "orpheus-executor-codex": "*",
+    "orpheus-executor-sonnet": "*",
+    "orpheus-executor-gemini": "*"
   },
   "engines": {
     "node": ">=18.0.0"
